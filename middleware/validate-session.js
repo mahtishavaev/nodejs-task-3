@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { StatusCodes } = require('http-status-codes');
 const User = require('../models/user')(
   require('../db'),
   require('sequelize').DataTypes
@@ -12,7 +13,7 @@ module.exports = function (req, res, next) {
     console.log(sessionToken);
     if (!sessionToken)
       return res
-        .status(403)
+        .status(StatusCodes.UNAUTHORIZED)
         .send({ auth: false, message: 'No token provided.' });
     else {
       jwt.verify(sessionToken, 'lets_play_sum_games_man', (err, decoded) => {
@@ -24,11 +25,15 @@ module.exports = function (req, res, next) {
               next();
             },
             function () {
-              res.status(401).send({ error: 'not authorized' });
+              res
+                .status(StatusCodes.UNAUTHORIZED)
+                .send({ error: 'not authorized' });
             }
           );
         } else {
-          res.status(400).send({ error: 'not authorized' });
+          res
+            .status(StatusCodes.UNAUTHORIZED)
+            .send({ error: 'not authorized' });
         }
       });
     }
