@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-var User = require('../models/user')(
+const User = require('../models/user')(
   require('../db'),
   require('sequelize').DataTypes
 );
@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
   if (req.method == 'OPTIONS') {
     next(); // allowing options as a method for request
   } else {
-    var sessionToken = req.headers.authorization;
+    const sessionToken = req.headers.authorization;
     console.log(sessionToken);
     if (!sessionToken)
       return res
