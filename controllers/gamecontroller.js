@@ -6,7 +6,7 @@ const Game = require('../models/game')(
 );
 
 router.get('/all', (req, res) => {
-  Game.findAll({ where: { owner_id: req.user.id } }).then(
+  Game.findAll({ where: { ownerId: req.user.id } }).then(
     function findSuccess(games) {
       res.status(StatusCodes.OK).json({
         games: games,
@@ -24,7 +24,7 @@ router.get('/all', (req, res) => {
 
 router.get('/:id', (req, res) => {
   Game.findOne({
-    where: { id: req.params.id, owner_id: req.user.id },
+    where: { id: req.params.id, ownerId: req.user.id },
   }).then(
     function findSuccess(game) {
       res.status(StatusCodes.OK).json({
@@ -43,11 +43,11 @@ router.get('/:id', (req, res) => {
 router.post('/create', (req, res) => {
   Game.create({
     title: req.body.game.title,
-    owner_id: req.body.user.id,
+    ownerId: req.body.user.id,
     studio: req.body.game.studio,
-    esrb_rating: req.body.game.esrb_rating,
-    user_rating: req.body.game.user_rating,
-    have_played: req.body.game.have_played,
+    esrbRating: req.body.game.esrbRating,
+    userRating: req.body.game.userRating,
+    havePlayed: req.body.game.havePlayed,
   }).then(
     function createSuccess(game) {
       res.status(StatusCodes.CREATED).json({
@@ -67,14 +67,14 @@ router.put('/update/:id', (req, res) => {
     {
       title: req.body.game.title,
       studio: req.body.game.studio,
-      esrb_rating: req.body.game.esrb_rating,
-      user_rating: req.body.game.user_rating,
-      have_played: req.body.game.have_played,
+      esrbRating: req.body.game.esrbRating,
+      userRating: req.body.game.userRating,
+      havePlayed: req.body.game.havePlayed,
     },
     {
       where: {
         id: req.params.id,
-        owner_id: req.user.id,
+        ownerId: req.user.id,
       },
     }
   ).then(
@@ -97,7 +97,7 @@ router.delete('/remove/:id', (req, res) => {
   Game.destroy({
     where: {
       id: req.params.id,
-      owner_id: req.user.id,
+      ownerId: req.user.id,
     },
   }).then(
     function deleteSuccess(game) {

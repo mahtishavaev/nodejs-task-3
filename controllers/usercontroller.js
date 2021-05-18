@@ -10,7 +10,7 @@ const User = require('../models/user')(
 
 router.post('/signup', (req, res) => {
   User.create({
-    full_name: req.body.user.full_name,
+    fullName: req.body.user.fullName,
     username: req.body.user.username,
     passwordHash: bcrypt.hashSync(req.body.user.password, 10),
     email: req.body.user.email,
@@ -21,7 +21,7 @@ router.post('/signup', (req, res) => {
       });
       res.status(StatusCodes.OK).json({
         user: {
-          full_name: user.full_name,
+          fullName: user.fullName,
           username: user.username,
           email: user.email,
         },
@@ -48,7 +48,7 @@ router.post('/signin', (req, res) => {
             });
             res.json({
               user: {
-                full_name: user.full_name,
+                fullName: user.fullName,
                 username: user.username,
                 email: user.email,
               },
